@@ -69,18 +69,22 @@ public class Game implements Serializable {
 
     public Game generation(int generation) {
         Game clone = this.clone();
-        boolean[][] newField = copy(field);
+        boolean[][] current = copy(field);
         for (int g = 0; g < generation; g++) {
-            boolean[][] newGen = new boolean[width][height];
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    newGen[i][j] = newValue(newField[i][j], countNeighbors(newField, i, j));
-                }
-            }
-            newField = copy(newGen);
+            current = nextGeneration(current);
         }
-        clone.setField(newField);
+        clone.setField(current);
         return clone;
+    }
+
+    private boolean[][] nextGeneration(boolean[][] current) {
+        boolean[][] newGen = new boolean[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                newGen[i][j] = newValue(current[i][j], countNeighbors(current, i, j));
+            }
+        }
+        return copy(newGen);
     }
 
     private boolean newValue(boolean live, int neighbors) {
