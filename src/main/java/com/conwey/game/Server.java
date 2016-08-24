@@ -1,9 +1,11 @@
 package com.conwey.game;
 
+import com.conwey.game.exceptions.GameNotFoundException;
 import com.google.gson.Gson;
 import spark.Request;
 
 import static spark.Spark.delete;
+import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
@@ -17,7 +19,13 @@ public class Server {
             return gameController.createGame(game);
         });
         get("/game/:id", (req, res) -> gameController.getGame(getId(req)));
-        delete("/game/:id", (req, res) -> gameController.deleteGame(getId(req)));
+        delete("/game/:id", (req, res) -> {
+            gameController.deleteGame(getId(req));
+            return "";
+        });
+
+        exception(GameNotFoundException.class, (exception, request, response) -> response.status(404));
+
 
     }
 
