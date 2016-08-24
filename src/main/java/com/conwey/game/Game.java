@@ -75,8 +75,8 @@ public class Game implements Serializable {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
                     int neighbors = countNeighbors(newField, i, j);
-                    if (newField[i][j] && (neighbors < 2 || neighbors > 3)) {
-                        newGen[i][j] = false;
+                    if (newField[i][j]) {
+                        newGen[i][j] = !(neighbors < 2 || neighbors > 3);
                     }
                     if (!newField[i][j] && neighbors == 3) {
                         newGen[i][j] = true;

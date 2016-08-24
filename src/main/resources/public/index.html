@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/app.js"></script>
+    <style>
+        .controlBlock {
+            display: inline-block;
+            border: 1px solid black;
+        }
+
+        canvas {
+            display: block;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<div class="controlBlock">
+    <label for="width">Width:
+        <input id="width" value="10"/>
+    </label>
+    <label for="height">Height:
+        <input id="height" value="10"/>
+    </label>
+    <textarea id="custom">
+        [[false, false, false, false, false],
+        [false, false, true, false, false],
+        [false, false, true, false, false],
+        [false, false, true, false, false],
+        [false, false, false, false, false]]
+    </textarea>
+    <button onclick="app.create()">Create Game</button>
+    <button onclick="app.blinker()">Blinker</button>
+    <button onclick="app.beacon()">Beacon</button>
+    <button onclick="app.custom()">Custom</button>
+</div>
+<div class="controlBlock">
+    <button onclick="app.stop()">Stop</button>
+</div>
+<div class="controlBlock">
+    <label for="gen">Generation:
+        <input id="gen" value="1"/>
+    </label>
+    <button onclick="app.generation()">Show generation</button>
+    <button onclick="app.go()">Go</button>
+</div>
+
+<canvas id="board" width="600" height="600">
+
+</canvas>
+</body>
+</html>
