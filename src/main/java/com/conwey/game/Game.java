@@ -74,19 +74,20 @@ public class Game implements Serializable {
             boolean[][] newGen = new boolean[width][height];
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    int neighbors = countNeighbors(newField, i, j);
-                    if (newField[i][j]) {
-                        newGen[i][j] = !(neighbors < 2 || neighbors > 3);
-                    }
-                    if (!newField[i][j] && neighbors == 3) {
-                        newGen[i][j] = true;
-                    }
+                    newGen[i][j] = newValue(newField[i][j], countNeighbors(newField, i, j));
                 }
             }
             newField = copy(newGen);
         }
         clone.setField(newField);
         return clone;
+    }
+
+    private boolean newValue(boolean live, int neighbors) {
+        if (live) {
+            return !(neighbors < 2 || neighbors > 3);
+        }
+        return neighbors == 3;
     }
 
     private int countNeighbors(boolean[][] newField, int i, int j) {
