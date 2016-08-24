@@ -13,25 +13,26 @@ public class Server {
 
     public static void main(String[] args) {
         GameController gameController = new GameController();
+        JsonTransformer jsonTransformer = new JsonTransformer();
         Gson gson = new Gson();
         post("/game", (req, res) -> {
             Game game = gson.fromJson(req.body(), Game.class);
             return gameController.createGame(game);
-        });
-        get("/game/:id", (req, res) -> gameController.getGame(getId(req)));
+        }, jsonTransformer);
+        get("/game/:id", (req, res) -> gameController.getGame(getIntParam("id", req)), jsonTransformer);
+        get("/game/:id/generation/:generation",
+                (req, res) ->
+                        gameController.getGameGeneration(getIntParam("id", req), getIntParam("generation", req)), jsonTransformer);
         delete("/game/:id", (req, res) -> {
-            gameController.deleteGame(getId(req));
+            gameController.deleteGame(getIntParam("id", req));
             return "";
         });
 
         exception(GameNotFoundException.class, (exception, request, response) -> response.status(404));
-
-
     }
 
-    private static Integer getId(Request req) {
-        return Integer.valueOf(req.params("id"));
+    private static Integer getIntParam(String name, Request req) {
+        return Integer.valueOf(req.params(name));
     }
-
 
 }

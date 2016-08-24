@@ -22,6 +22,12 @@ public class GameController {
         return games.get(id);
     }
 
+    public Game getGameGeneration(Integer id, Integer generation) {
+        checkGameExists(id);
+        Game game = games.get(id);
+        return game.generation(generation);
+    }
+
     public void deleteGame(Integer id) {
         checkGameExists(id);
         games.remove(id);
